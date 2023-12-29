@@ -1,8 +1,11 @@
 package com.daiana.backendportfolio;
 
+import com.daiana.backendportfolio.models.entities.Experience;
 import com.daiana.backendportfolio.models.entities.Person;
 import com.daiana.backendportfolio.models.entities.Profile;
 import com.daiana.backendportfolio.models.entities.Project;
+import com.daiana.backendportfolio.models.enums.ExperienceType;
+import com.daiana.backendportfolio.repositories.ExperienceRepository;
 import com.daiana.backendportfolio.repositories.ProfileRepository;
 import com.daiana.backendportfolio.repositories.PersonRepository;
 import com.daiana.backendportfolio.repositories.ProjectRepository;
@@ -10,6 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class BackendportfolioApplication {
@@ -20,7 +25,8 @@ public class BackendportfolioApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(PersonRepository personRepository,
-											   ProfileRepository profileRepository, ProjectRepository projectRepository){
+											   ProfileRepository profileRepository, ProjectRepository projectRepository,
+											   ExperienceRepository experienceRepository){
 		return args -> {
 			Person person = new Person("sofiuwu","asd123");
 			personRepository.save(person);
@@ -29,6 +35,8 @@ public class BackendportfolioApplication {
 			Project project = new Project("tetris","tetris", "www.url.com", "www.deprloy.com", profile);
 			profile.addProject(project);
 			projectRepository.save(project);
+			Experience experience = new Experience("mula","de la casa", LocalDate.now(),LocalDate.now().plusYears(5), ExperienceType.WORK_EXPERIENCE,profile);
+			experienceRepository.save(experience);
 		};
 	}
 }

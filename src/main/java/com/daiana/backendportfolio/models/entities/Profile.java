@@ -1,15 +1,19 @@
 package com.daiana.backendportfolio.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Profile {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String lastname;
@@ -18,8 +22,10 @@ public class Profile {
 	@OneToOne
 	@JoinColumn(name = "person_id")
 	private Person person;
-	@OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "profileProject", fetch = FetchType.EAGER)
 	private List<Project> projectList = new ArrayList<>();
+	@OneToMany(mappedBy = "profileExperience", fetch = FetchType.EAGER)
+	private List<Experience> experienceList = new ArrayList<>();
 
 	public Profile() {
 	}
@@ -32,64 +38,14 @@ public class Profile {
 		this.person = person;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getAbout() {
-		return about;
-	}
-
-	public void setAbout(String about) {
-		this.about = about;
-	}
-
-	public String getProfilePicture() {
-		return profilePicture;
-	}
-
-	public void setProfilePicture(String profilePicture) {
-		this.profilePicture = profilePicture;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public List<Project> getProjectList() {
-		return projectList;
-	}
-
-	public void setProjectList(List<Project> projectList) {
-		this.projectList = projectList;
-	}
 	//agregar projecto
 	public void addProject(Project project){
-		project.setProfile(this);
+		project.setProfileProject(this);
 		this.projectList.add(project);
+	}
+
+	public void addExperience(Experience experience){
+		experience.setProfileExperience(this);
+		this.experienceList.add(experience);
 	}
 }
