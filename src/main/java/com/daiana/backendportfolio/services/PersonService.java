@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface PersonService {
 	List<PersonDto> findAll();
-	Person save(Person person);
+	PersonDto save(Person person);
 	Optional<PersonDto> findById(Long id);
 	void remove(Long id);
 }

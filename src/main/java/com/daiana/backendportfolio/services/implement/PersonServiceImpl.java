@@ -3,12 +3,16 @@ package com.daiana.backendportfolio.services.implement;
 import com.daiana.backendportfolio.models.dto.PersonDto;
 import com.daiana.backendportfolio.models.dto.mapper.DtoMapperPerson;
 import com.daiana.backendportfolio.models.entities.Person;
+import com.daiana.backendportfolio.models.entities.Role;
 import com.daiana.backendportfolio.repositories.PersonRepository;
+import com.daiana.backendportfolio.repositories.RoleRepository;
 import com.daiana.backendportfolio.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +22,10 @@ public class PersonServiceImpl implements PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private RoleRepository roleRepository;
 	@Override
 	@Transactional(readOnly = true)
 	public List<PersonDto> findAll() {
@@ -37,12 +44,18 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	@Transactional
-	public Person save(Person person) {
-		//TODO
-		//password
-		//rol
-		return personRepository.save(person);
+	public PersonDto save(Person person) {
+		person.setPassword(passwordEncoder.encode(person.getPassword()));
 
+		Optional<Role> optionalRole = roleRepository.findByName("ROLE_USER");
+		List<Role> roles = new ArrayList<>();
+
+		if(optionalRole.isPresent()){
+			roles.add(optionalRole.orElseThrow());
+		}
+		person.setRoles(roles);
+
+		return DtoMapperPerson.builder().setPerson(personRepository.save(person)).build();
 	}
 
 	@Override

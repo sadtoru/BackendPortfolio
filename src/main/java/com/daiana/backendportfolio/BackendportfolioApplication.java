@@ -24,7 +24,8 @@ public class BackendportfolioApplication {
 											   ExperienceRepository experienceRepository, ProgrammingLanguageRepository languageRepository,
 											   FrameworkRepository frameworkRepository){
 		return args -> {
-			Person person = new Person("sofiuwu","asd123");
+
+			/*Person person = new Person("sofiuwu","asd123");
 			personRepository.save(person);
 			Profile profile = new Profile("sofi","uwu", "sofi123","asd", person);
 			profileRepository.save(profile);
@@ -45,7 +46,7 @@ public class BackendportfolioApplication {
 			projectRepository.save(project);
 			projectRepository.save(project1);
 			//pruebas
-
+*/
 
 		};
 	}
