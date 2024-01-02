@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(originPatterns = "*")
 public class PersonController {
 	@Autowired
 	private PersonService personService;

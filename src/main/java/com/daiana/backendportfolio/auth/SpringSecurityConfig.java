@@ -40,6 +40,8 @@ public class SpringSecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity.authorizeHttpRequests(req -> req.requestMatchers(HttpMethod.POST, "/users").permitAll()
 				.requestMatchers(HttpMethod.GET, "/users").permitAll()
+								//.requestMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN")
+								.requestMatchers(HttpMethod.GET, "/profile").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().permitAll()
 				).addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
 				.addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager()))

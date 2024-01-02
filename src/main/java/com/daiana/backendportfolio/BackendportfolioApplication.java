@@ -34,13 +34,13 @@ public class BackendportfolioApplication {
 			roleRepository.save(roleAdmin);
 			roleRepository.save(roleUser);
 
-			Person person = new Person("sofiuwu", passwordEncoder.encode("asd123"));
-
+			Person person = new Person("admin", passwordEncoder.encode("asd123"));
 			person.getRoles().add(roleAdmin);
 
 			personRepository.save(person);
-			Profile profile = new Profile("sofi","uwu", "sofi123","asd", person);
-			profileRepository.save(profile);
+
+			//Profile profile = new Profile("admin","admin", "sofi123","asd", person);
+			//profileRepository.save(profile);
 			/*
 			Project project = new Project("tetris","tetris", "www.url.com", "www.deprloy.com", profile);
 			profile.addProject(project);

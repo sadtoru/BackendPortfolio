@@ -5,10 +5,12 @@ import com.daiana.backendportfolio.models.dto.mapper.DtoMapperPerson;
 import com.daiana.backendportfolio.models.dto.mapper.DtoMapperProfile;
 import com.daiana.backendportfolio.models.entities.Person;
 import com.daiana.backendportfolio.models.entities.Profile;
+import com.daiana.backendportfolio.repositories.PersonRepository;
 import com.daiana.backendportfolio.repositories.ProfileRepository;
 import com.daiana.backendportfolio.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,10 @@ import java.util.stream.Collectors;
 public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	private ProfileRepository profileRepository;
+	@Autowired
+	private PersonRepository personRepository;
 	@Override
+	@Transactional(readOnly = true)
 	public List<ProfileDto> findAll() {
 		List<Profile> profileList = (List<Profile>) profileRepository.findAll();
 		return profileList.stream()
@@ -27,13 +32,27 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
-	public ProfileDto save(Profile profile) {
-		return null;
+	public boolean hasProfile(String username) {
+		Optional<Person> person = personRepository.findByUsername(username);
+		return person.isPresent() && person.orElseThrow().getProfileUser() != null;
+	}
+
+	@Override
+	@Transactional
+	public void save(Profile profile, String username) {
+		Person person = personRepository.findByUsername(username).orElseThrow();
+
+		person.setProfileUser(profile);
+		profile.setPerson(person);
+
+		profileRepository.save(profile);
+		personRepository.save(person);
 	}
 
 	@Override
 	public Optional<ProfileDto> findById(Long id) {
-		return Optional.empty();
+		return profileRepository.findById(id)
+				.map(profile -> DtoMapperProfile.builder().setProfile(profile).build());
 	}
 
 	@Override
