@@ -2,7 +2,6 @@ package com.daiana.backendportfolio.services;
 
 import com.daiana.backendportfolio.models.dto.PersonDto;
 import com.daiana.backendportfolio.models.entities.Person;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
