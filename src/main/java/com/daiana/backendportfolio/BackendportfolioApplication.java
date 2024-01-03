@@ -24,7 +24,7 @@ public class BackendportfolioApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(PersonRepository personRepository, RoleRepository roleRepository,
 											   ProfileRepository profileRepository, ProjectRepository projectRepository,
-											   ExperienceRepository experienceRepository, ProgrammingLanguageRepository languageRepository,
+											   ExperienceRepository experienceRepository,
 											   FrameworkRepository frameworkRepository){
 		return args -> {
 
