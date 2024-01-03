@@ -1,7 +1,6 @@
 package com.daiana.backendportfolio.services.implement;
 
 import com.daiana.backendportfolio.models.dto.ProfileDto;
-import com.daiana.backendportfolio.models.dto.mapper.DtoMapperPerson;
 import com.daiana.backendportfolio.models.dto.mapper.DtoMapperProfile;
 import com.daiana.backendportfolio.models.entities.Person;
 import com.daiana.backendportfolio.models.entities.Profile;
@@ -51,12 +50,43 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Optional<ProfileDto> findById(Long id) {
-		return profileRepository.findById(id)
-				.map(profile -> DtoMapperProfile.builder().setProfile(profile).build());
+		return profileRepository.findById(id).map(profile -> DtoMapperProfile.builder().setProfile(profile).build());
+	}
+
+	@Override
+	@Transactional
+	public boolean hasProfileOwner(String username, Long id) {
+		Optional<Profile> optionalProfile = profileRepository.findById(id);
+
+		return optionalProfile.map(profile -> profile.getPerson().getUsername().equals(username)).orElse(false);
 	}
 
 	@Override
 	public void remove(Long id) {
 
+	}
+
+	@Override
+	public Profile getProfileByUsername(String username) {
+		return profileRepository.findByPersonUsername(username);
+	}
+
+	@Override
+	@Transactional
+	public Optional<ProfileDto> update(Profile profileDto, Long id) {
+
+		Optional<Profile> optionalProfile = profileRepository.findById(id);
+
+		Profile profile = null;
+
+		if(optionalProfile.isPresent()){
+			Profile profileDb = optionalProfile.orElseThrow();
+			profileDb.setName(profileDto.getName());
+			profileDb.setLastname(profileDto.getLastname());
+			profileDb.setAbout(profileDto.getAbout());
+			profileDb.setProfilePicture(profileDto.getProfilePicture());
+			profile = profileRepository.save(profileDb);
+		}
+		return Optional.ofNullable(DtoMapperProfile.builder().setProfile(profile).build());
 	}
 }

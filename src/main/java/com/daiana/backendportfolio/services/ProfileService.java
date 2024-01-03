@@ -12,5 +12,8 @@ public interface ProfileService {
 	boolean hasProfile(String username);
 	void save(Profile profile, String username);
 	Optional<ProfileDto> findById(Long id);
+	boolean hasProfileOwner(String username, Long id);
 	void remove(Long id);
+	Profile getProfileByUsername(String username);
+	Optional<ProfileDto> update(Profile profile, Long id);
 }

@@ -42,6 +42,8 @@ public class SpringSecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/users").permitAll()
 								//.requestMatchers(HttpMethod.GET, "/users").hasAuthority("ROLE_ADMIN")
 								.requestMatchers(HttpMethod.GET, "/profile").hasAnyAuthority("ROLE_ADMIN")
+								.requestMatchers(HttpMethod.POST, "/profile").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+								.requestMatchers(HttpMethod.PUT, "/profile/{username}").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
 				.anyRequest().permitAll()
 				).addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
 				.addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager()))

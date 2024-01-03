@@ -10,4 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends CrudRepository<Profile, Long> {
+	Profile findByPersonUsername(String username);
 }
