@@ -1,11 +1,14 @@
 package com.daiana.backendportfolio.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,9 +17,17 @@ public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private String projectName;
+	@NotBlank
 	private String description;
+	@NotNull
+	private String tech;
+	@URL
+	@NotBlank
 	private String githubUrl;
+	@URL
+	@NotBlank
 	private String deployUrl;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -29,7 +40,7 @@ public class Project {
 			uniqueConstraints = { @UniqueConstraint(columnNames =
 					{"project_id", "framework_id"})}
 	)
-	private List<Framework> frameworkList = new ArrayList<>();
+	private Set<Framework> frameworkList = new HashSet<>();
 
 	public Project() {
 	}

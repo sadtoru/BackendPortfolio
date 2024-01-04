@@ -49,6 +49,7 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Optional<ProfileDto> findById(Long id) {
 		return profileRepository.findById(id).map(profile -> DtoMapperProfile.builder().setProfile(profile).build());
 	}
@@ -63,7 +64,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public void remove(Long id) {
-
+		profileRepository.findById(id);
 	}
 
 	@Override

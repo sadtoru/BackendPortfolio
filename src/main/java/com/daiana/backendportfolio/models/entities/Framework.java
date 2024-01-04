@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -17,7 +17,7 @@ public class Framework {
 	//private String logo;
 	private String name;
 	@ManyToMany(mappedBy = "frameworkList")
-	private List<Project> projectList = new ArrayList<>();
+	private Set<Project> projectList = new HashSet<>();
 
 	public Framework() {
 	}
